@@ -120,7 +120,7 @@ export LANG=en_US.UTF-8
 
 
 # zsh-bd
-. $HOME/.zsh/plugins/bd/bd.zsh
+#. $HOME/.zsh/plugins/bd/bd.zsh
 eval "$(pyenv virtualenv-init -)"
 #source ~/.oh-my-zsh/plugins/incr*.zsh
 
@@ -137,3 +137,21 @@ fancy-ctrl-z () {
 }
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
+#pyenv virtual prompt
+function virtualenv_info(){
+    # Get Virtual Env
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        # Strip out the path and just leave the env name
+        venv="${VIRTUAL_ENV##*/}"
+    else
+        # In case you don't have one activated
+        venv=''
+    fi
+    [[ -n "$venv" ]] && echo "(venv:$venv) "
+}
+
+# disable the default virtualenv prompt change
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+local VENV="\$(virtualenv_info)";
+export PS1="${VENV}"
